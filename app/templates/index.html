@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form action="" method="post" novalidate="">
+		{{ form.hidden_tag() }}
+		<p>Hello {{user.username}}</p>
+		<p>
+			{{ form.task.label }}
+			{{ form.task (size=32) }}
+			{{ form.submit() }}
+		</p>
+	</form>
+
+	{% for task in tasks %}
+		<!-- show tasks -->
+	{% endfor %}
+{% endblock %}
