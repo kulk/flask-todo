@@ -3,7 +3,7 @@
 {% block content %}
 	<form action="" method="post" novalidate="">
 		{{ form.hidden_tag() }}
-		<p>Hello {{user.username}}</p>
+		<p>Hello {{current_user.email}}</p>
 		<p>
 			{{ form.task.label }}
 			{{ form.task (size=32) }}
@@ -12,6 +12,6 @@
 	</form>
 
 	{% for task in tasks %}
-		<!-- show tasks -->
+		<!-- show tasks, check end of chpt 5 -->
 	{% endfor %}
 {% endblock %}
