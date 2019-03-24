@@ -1,10 +1,3 @@
-'''from app import app
-from flask import render_template, flash, redirect, url_for
-from app.forms import LoginForm, TodoForm
-from flask_login import login_user, logout_user, current_user, login_required
-from app.models import User
-'''
-
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
@@ -13,12 +6,19 @@ from app.forms import LoginForm, TodoForm, RegistrationForm
 from app.models import User
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-	form = TodoForm()
-	return render_template('index.html', form=form) 
+	form = TodoForm(current_user.email)
+	tasks = current_user.tasks
+	if form.validate_on_submit():
+		current_user.tasks = form.tasks.data
+		db.session.commit()
+		return redirect(url_for('index'))
+	#elif request.method == 'GET':
+		#form.tasks.data = current_user.tasks
+	return render_template('index.html', form=form, tasks=tasks) 
 
 @app.route('/login', methods=['GET', 'POST']) # Create login route
 def login():
