@@ -17,7 +17,16 @@ def index():
 		db.session.add(task)
 		db.session.commit()
 		return redirect(url_for('index'))
-	return render_template('index.html', form=form, tasks=tasks) 
+	return render_template('index.html', form=form, tasks=tasks)
+
+
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+	task_id = request.form.get('task_id') # Gets the id of Task from the form
+	delete_task = Task.query.filter_by(id=task_id).first() # query to find the task based on the id
+	db.session.delete(delete_task)
+	db.session.commit()
+	return redirect(url_for('index'))
 
 @app.route('/login', methods=['GET', 'POST']) # Create login route
 def login():
